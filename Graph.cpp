@@ -91,36 +91,56 @@ std::ostream& operator<<(std::ostream& out, const Connection& c) {
 
 // STUDENT TODO: IMPLEMENT
 void Graph::updateNode(int id, NodeInfo n) {
-    if (/* id is out of bounds — check if id is a valid index into nodes */ true) {
+    if (id < 0 || id >= static_cast<int>(nodes.size())) {
         cout << "Attempting to update node with id: " << id << " but node does not exist" << endl;
         return;
     }
-
+    if (nodes.at(id) != nullptr) {
+        delete nodes.at(id);
+    }
+    nodes.at(id) = new NodeInfo(n); 
     return; //stub
 }
 
 // STUDENT TODO: IMPLEMENT
 NodeInfo* Graph::getNode(int id) const {
-    return nullptr; //stub
+       if (id < 0 || id >= static_cast<int>(nodes.size())) {
+        return nullptr;
+    }
+    return nodes.at(id);
 }
 
 // STUDENT TODO: IMPLEMENT
 void Graph::updateConnection(int v, int u, double w) {
-    if (/* v is out of bounds — check if v is a valid index into nodes */ true) {
-        cerr << "Attempting to update connection between " << v << " and " << u << " with weight " << w << " but " << v << " does not exist" << endl;
+    if (v < 0 || v >= static_cast<int>(nodes.size())) {
+        cerr << "Attempting to update connection between " << v << " and " << u
+             << " with weight " << w << " but " << v << " does not exist" << endl;
         exit(1);
     }
-    if (/* u is out of bounds — check if u is a valid index into nodes */ true) {
-        cerr << "Attempting to update connection between " << v << " and " << u << " with weight " << w << " but " << u << " does not exist" << endl;
+    if (u < 0 || u >= static_cast<int>(nodes.size())) {
+        cerr << "Attempting to update connection between " << v << " and " << u
+             << " with weight " << w << " but " << u << " does not exist" << endl;
         exit(1);
     }
-
-    return; //stub
+      if (adjacencyList.at(v).find(u) == adjacencyList.at(v).end()) {
+      adjacencyList.at(v)[u] = Connection(v, u, w);
+    } else {
+        adjacencyList.at(v)[u].weight = w;
+    }
 }
 
 // STUDENT TODO: IMPLEMENT
 void Graph::clear() {
-    return; //stub
+    for (int i = 0; i < static_cast<int>(nodes.size()); i++) {
+        if (nodes[i] != nullptr) {
+            delete nodes[i];
+            nodes[i] = nullptr;
+        }
+    }
+
+    nodes.clear();
+    adjacencyList.clear();
+    size = 0;
 }
 
 
