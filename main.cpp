@@ -1,3 +1,4 @@
+//Xianze Gu A305E39
 #include <iostream>
 #include "NeuralNetwork.hpp"
 #include "utility.hpp"
